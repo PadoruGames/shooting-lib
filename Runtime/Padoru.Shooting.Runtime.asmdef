@@ -1,0 +1,16 @@
+{
+    "name": "Padoru.Shooting.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:36572b79ef68b374180c36dc2f0f5bd4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
