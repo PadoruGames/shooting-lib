@@ -5,7 +5,7 @@ namespace Padoru.Shooting
 {
 	public class Projectile : MonoBehaviour
 	{
-		[SerializeField] private float speed = 3f;
+		[SerializeField] private int damage = 1;
 
 		public IDamageDealer DamageDealer { get; set; }
 
@@ -14,9 +14,25 @@ namespace Padoru.Shooting
 			Destroy(gameObject, 5f);
 		}
 
-		private void Update()
+		private void OnCollisionEnter(Collision collision)
 		{
-			transform.position += Vector3.right * speed * Time.deltaTime;
+			OnColision(collision.collider.gameObject);
+		}
+
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+			OnColision(collision.collider.gameObject);
+		}
+
+		private void OnColision(GameObject go)
+		{
+			var health = go.GetComponent<IHealth>();
+			if (health != null)
+			{
+				health.Damage(damage, DamageDealer);
+			}
+
+			Destroy(gameObject);
 		}
 	}
 }
