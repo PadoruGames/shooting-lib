@@ -1,3 +1,4 @@
+using Padoru.Core;
 using Padoru.Health;
 using UnityEngine;
 
@@ -9,10 +10,10 @@ namespace Padoru.Shooting
 	{
 		private IProjectileFactory factory;
 		private Transform shootPoint;
-		private float shootInterval;
+		private ModifiableValue<float, FloatCalculator> shootInterval;
 		private float lastShootTime;
 
-		public ProjectileShootBehaviour(IProjectileFactory factory, float shootInterval, Transform shootPoint)
+		public ProjectileShootBehaviour(IProjectileFactory factory, ModifiableValue<float, FloatCalculator> shootInterval, Transform shootPoint)
 		{
 			this.factory = factory;
 			this.shootInterval = shootInterval;
@@ -27,7 +28,7 @@ namespace Padoru.Shooting
 				return;
 			}
 
-			if (Time.time - lastShootTime < shootInterval)
+			if (Time.time - lastShootTime < shootInterval.Value)
 			{
 				return;
 			}
