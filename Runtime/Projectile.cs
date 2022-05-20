@@ -6,6 +6,7 @@ namespace Padoru.Shooting
 	public class Projectile : MonoBehaviour
 	{
 		[SerializeField] private int damage = 1;
+		[SerializeField] private GameObject impactPrefab;
 
 		public IDamageDealer DamageDealer { get; set; }
 
@@ -31,6 +32,11 @@ namespace Padoru.Shooting
 			{
 				health.Damage(damage, DamageDealer);
 			}
+
+			if(impactPrefab != null)
+            {
+				Instantiate(impactPrefab, transform.position, Quaternion.identity);
+            }
 
 			Destroy(gameObject);
 		}
