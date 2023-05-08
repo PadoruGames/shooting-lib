@@ -23,17 +23,17 @@ namespace Padoru.Shooting
 			this.shootPoint = shootPoint;
 		}
 
-		public void Shoot(IDamageDealer damageDealer = null)
+		public bool Shoot(IDamageDealer damageDealer = null)
 		{
 			if (factory == null)
 			{
 				Debug.LogError("Cannot get projectile, factory is null");
-				return;
+				return false;
 			}
 
 			if (Time.time - lastShootTime < shootInterval.Value)
 			{
-				return;
+				return false;
 			}
 
 			lastShootTime = Time.time;
@@ -42,6 +42,8 @@ namespace Padoru.Shooting
 			projectile.DamageDealer = damageDealer;
 
 			OnShoot?.Invoke();
+
+			return true;
 		}
 	}
 }

@@ -17,21 +17,19 @@ namespace Padoru.Shooting
 
 		private void OnCollisionEnter(Collision collision)
 		{
-			OnColision(collision.collider.gameObject);
+			OnCollision(collision.collider.gameObject);
 		}
 
 		private void OnCollisionEnter2D(Collision2D collision)
 		{
-			OnColision(collision.collider.gameObject);
+			OnCollision(collision.collider.gameObject);
 		}
 
-		private void OnColision(GameObject go)
+		private void OnCollision(GameObject go)
 		{
 			var health = go.GetComponent<IHealth>();
-			if (health != null)
-			{
-				health.Damage(damage, DamageDealer);
-			}
+			
+			health?.Damage(damage, DamageDealer);
 
 			if(impactPrefab != null)
             {
