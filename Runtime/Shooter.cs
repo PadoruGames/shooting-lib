@@ -21,22 +21,17 @@ namespace Padoru.Shooting
 			this.behaviour = behaviour;
 		}
 
-		public bool Shoot(IDamageDealer damageDealer = null)
+		public void Shoot(IDamageDealer damageDealer = null)
 		{
 			if(behaviour == null)
 			{
 				Debug.LogError($"Could not shoot. Shoot behaviour is null");
-				return false;
+				return;
 			}
 
-			var hasShot = behaviour.Shoot(damageDealer);
+			behaviour.Shoot(damageDealer);
 			
-			if(hasShot)
-			{
-				OnShoot?.Invoke();
-			}
-
-			return hasShot;
+			OnShoot?.Invoke();
 		}
 	}
 }

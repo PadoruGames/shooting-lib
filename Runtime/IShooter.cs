@@ -8,6 +8,7 @@ namespace Padoru.Shooting
 		event Action OnShoot;
 		
 		void SetBehaviour(IShootBehaviour behaviour);
-		bool Shoot(IDamageDealer damageDealer = null);
+		
+		void Shoot(IDamageDealer damageDealer = null);
 	}
 }

@@ -4,6 +4,8 @@ namespace Padoru.Shooting
 {
 	public interface IShootBehaviour
 	{
-		bool Shoot(IDamageDealer damageDealer = null);
+		bool CanShoot { get; }
+		
+		void Shoot(IDamageDealer damageDealer = null);
 	}
 }
