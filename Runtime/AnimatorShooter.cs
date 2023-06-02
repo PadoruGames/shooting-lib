@@ -16,6 +16,10 @@ namespace Padoru.Shooting
 		private IShootBehaviour behaviour;
 		private IDamageDealer damageDealer;
 		private bool preparingShoot;
+		private ModifiableValue<float, FloatCalculator> shootInterval;
+		private float lastShootTime;
+
+		public bool CanShoot => Time.time - lastShootTime >= shootInterval.Value;
 
 		public event Action OnShoot;
 
@@ -24,10 +28,12 @@ namespace Padoru.Shooting
 			Animator animator, 
 			AnimatorMessageHandler messageHandler, 
 			string shootAnimationName,
-			string shootEventName)
+			string shootEventName,
+			ModifiableValue<float, FloatCalculator> shootInterval)
 		{
 			this.animator = animator;
 			this.shootAnimationName = shootAnimationName;
+			this.shootInterval = shootInterval;
 			
 			messageHandler.GetEvent(shootEventName).AddListener(AnimationShootEventHandler);
 			
@@ -47,7 +53,7 @@ namespace Padoru.Shooting
 				return;
 			}
 
-			if (behaviour.CanShoot && !preparingShoot)
+			if (CanShoot && !preparingShoot)
 			{
 				preparingShoot = true;
 				
@@ -64,6 +70,8 @@ namespace Padoru.Shooting
 				Debug.LogError($"Could not shoot. Shoot behaviour is null");
 				return;
 			}
+
+			lastShootTime = Time.time;
 			
 			preparingShoot = false;
 

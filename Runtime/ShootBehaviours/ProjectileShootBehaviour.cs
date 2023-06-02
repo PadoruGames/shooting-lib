@@ -1,4 +1,3 @@
-using Padoru.Core;
 using Padoru.Health;
 using UnityEngine;
 
@@ -8,17 +7,12 @@ namespace Padoru.Shooting
 {
 	public class ProjectileShootBehaviour : IShootBehaviour
 	{
-		private IProjectileFactory factory;
-		private Transform shootPoint;
-		private ModifiableValue<float, FloatCalculator> shootInterval;
-		private float lastShootTime;
+		private readonly IProjectileFactory factory;
+		private readonly Transform shootPoint;
 
-		public bool CanShoot => Time.time - lastShootTime >= shootInterval.Value;
-
-		public ProjectileShootBehaviour(IProjectileFactory factory, ModifiableValue<float, FloatCalculator> shootInterval, Transform shootPoint)
+		public ProjectileShootBehaviour(IProjectileFactory factory, Transform shootPoint)
 		{
 			this.factory = factory;
-			this.shootInterval = shootInterval;
 			this.shootPoint = shootPoint;
 		}
 
@@ -30,13 +24,6 @@ namespace Padoru.Shooting
 				return;
 			}
 
-			if (!CanShoot)
-			{
-				Debug.LogWarning("Called Shoot but CanShoot is not true");
-				return;
-			}
-
-			lastShootTime = Time.time;
 			var projectile = factory.GetProjectile();
 			projectile.transform.SetPositionAndRotation(shootPoint.position, shootPoint.rotation);
 			projectile.DamageDealer = damageDealer;
