@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Padoru.Movement;
 using UnityEngine;
 
@@ -7,15 +8,15 @@ using Object = UnityEngine.Object;
 
 namespace Padoru.Shooting
 {
-	public class InstanceTargetProjectileFactory : IProjectileFactory
+	public class ParabolicProjectileFactory : IProjectileFactory
 	{
 		private readonly Projectile projectilePrefab;
-		private readonly Func<Transform> getTargetCallback;
+		[NotNull] private readonly Func<Vector3> getTargetPositionCallback;
 
-		public InstanceTargetProjectileFactory(Projectile projectilePrefab, Func<Transform> getTargetCallback)
+		public ParabolicProjectileFactory(Projectile projectilePrefab, Func<Vector3> getTargetPositionCallback)
 		{
 			this.projectilePrefab = projectilePrefab;
-			this.getTargetCallback = getTargetCallback;
+			this.getTargetPositionCallback = getTargetPositionCallback;
 		}
 
 		public Projectile GetProjectile()
@@ -28,23 +29,17 @@ namespace Padoru.Shooting
 
 			var projectile = Object.Instantiate(projectilePrefab);
 
-			var target = getTargetCallback?.Invoke();
-
-			if (target == null)
-			{
-				Debug.LogError($"Provided target is null");
-				return null;
-			}
+			var targetPosition = getTargetPositionCallback?.Invoke() ?? Vector3.zero;
 
 			var movement = projectile.GetComponent<TargetedParabolicMovement>();
 
 			if (movement == null)
 			{
-				Debug.LogError($"Projectile does not have a {typeof(TargetedParabolicMovement)} component attached.", target.gameObject);
+				Debug.LogError($"Projectile does not have a {typeof(TargetedParabolicMovement)} component attached.");
 				return null;
 			}
 
-			movement.Target = target;
+			movement.TargetPosition = targetPosition;
 			
 			return projectile;
 		}
