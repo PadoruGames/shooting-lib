@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace Padoru.Shooting
 {
-	public class Projectile : MonoBehaviour
+	public class Projectile : MonoBehaviour, IProjectile
 	{
 		[SerializeField] private int damage = 1;
 		[SerializeField] private float destroyDelay = 5f;
 		[SerializeField] private GameObject impactPrefab;
 
+		public Transform Transform => transform;
 		public IDamageDealer DamageDealer { get; set; }
 
 		private void Awake()
