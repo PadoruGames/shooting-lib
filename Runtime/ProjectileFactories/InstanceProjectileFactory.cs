@@ -7,13 +7,15 @@ namespace Padoru.Shooting
 	public class InstanceProjectileFactory : IProjectileFactory
 	{
 		private Projectile projectilePrefab;
+		private readonly Transform shootPoint;
 
-		public InstanceProjectileFactory(Projectile projectilePrefab)
+		public InstanceProjectileFactory(Projectile projectilePrefab, Transform shootPoint)
 		{
 			this.projectilePrefab = projectilePrefab;
+			this.shootPoint = shootPoint;
 		}
 
-		public Projectile GetProjectile()
+		public IProjectile GetProjectile()
 		{
 			if (projectilePrefab == null)
 			{
@@ -21,7 +23,7 @@ namespace Padoru.Shooting
 				return null;
 			}
 
-			return Object.Instantiate(projectilePrefab);
+			return Object.Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
 		}
 	}
 }

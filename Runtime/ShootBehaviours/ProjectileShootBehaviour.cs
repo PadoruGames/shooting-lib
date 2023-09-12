@@ -8,12 +8,10 @@ namespace Padoru.Shooting
 	public class ProjectileShootBehaviour : IShootBehaviour
 	{
 		private readonly IProjectileFactory factory;
-		private readonly Transform shootPoint;
 
-		public ProjectileShootBehaviour(IProjectileFactory factory, Transform shootPoint)
+		public ProjectileShootBehaviour(IProjectileFactory factory)
 		{
 			this.factory = factory;
-			this.shootPoint = shootPoint;
 		}
 
 		public void Shoot(IDamageDealer damageDealer = null)
@@ -25,7 +23,6 @@ namespace Padoru.Shooting
 			}
 
 			var projectile = factory.GetProjectile();
-			projectile.transform.SetPositionAndRotation(shootPoint.position, shootPoint.rotation);
 			projectile.DamageDealer = damageDealer;
 		}
 	}

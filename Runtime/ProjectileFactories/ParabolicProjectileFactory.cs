@@ -11,15 +11,17 @@ namespace Padoru.Shooting
 	public class ParabolicProjectileFactory : IProjectileFactory
 	{
 		private readonly Projectile projectilePrefab;
-		[NotNull] private readonly Func<Vector3> getTargetPositionCallback;
+		private readonly Transform shootPoint;
+		private readonly Func<Vector3> getTargetPositionCallback;
 
-		public ParabolicProjectileFactory(Projectile projectilePrefab, Func<Vector3> getTargetPositionCallback)
+		public ParabolicProjectileFactory(Projectile projectilePrefab, Transform shootPoint, Func<Vector3> getTargetPositionCallback)
 		{
 			this.projectilePrefab = projectilePrefab;
+			this.shootPoint = shootPoint;
 			this.getTargetPositionCallback = getTargetPositionCallback;
 		}
 
-		public Projectile GetProjectile()
+		public IProjectile GetProjectile()
 		{
 			if (projectilePrefab == null)
 			{
@@ -27,7 +29,7 @@ namespace Padoru.Shooting
 				return null;
 			}
 
-			var projectile = Object.Instantiate(projectilePrefab);
+			var projectile = Object.Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
 
 			var targetPosition = getTargetPositionCallback?.Invoke() ?? Vector3.zero;
 
